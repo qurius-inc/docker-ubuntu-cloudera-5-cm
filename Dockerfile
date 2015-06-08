@@ -2,6 +2,7 @@ FROM qurius/ubuntu-cloudera-5-base
 MAINTAINER Qurius-inc
 
 RUN apt-get -y --force-yes install cloudera-manager-server-db-2 cloudera-manager-server
+RUN apt-get clean
 
 RUN mkdir /var/cm/cloudera-host-monitor
 RUN mkdir /var/cm/cloudera-service-monitor
