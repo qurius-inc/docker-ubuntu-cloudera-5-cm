@@ -11,8 +11,7 @@ RUN mkdir /var/cm/cloudera-service-monitor
 RUN chmod -R 764 /var/cm/cloudera-host-monitor
 RUN chmod -R 764 /var/cm/cloudera-service-monitor
 
-COPY scripts/supervisor/cm.sh /etc/supervisor/conf.d/cm.sh
-RUN chmod +x /etc/supervisor/conf.d/cm.sh
+COPY scripts/supervisor/cm.conf /etc/supervisor/conf.d/cm.conf
 
 # make cloudera-scm-server-db to run in foreground
 RUN sed -i 's#\$SU -c "\$PG_CTL start -D \$DATA_DIR -l \$SERVER_OUT -o \\"\$EXTRA_PG_ARGS\\"" >\/dev\/null#\$SU -c "\/usr\/lib\/postgresql\/9.3\/bin\/postgres -D \$DATA_DIR $EXTRA_PG_ARGS" >\$SERVER_OUT 2>\&1#g' /etc/init.d/cloudera-scm-server-db
