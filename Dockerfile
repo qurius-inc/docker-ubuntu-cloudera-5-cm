@@ -1,4 +1,4 @@
-FROM qurius/ubuntu-cloudera-5-base:0.2
+FROM qurius/ubuntu-cloudera-5-base:0.1
 MAINTAINER Qurius-inc
 
 RUN apt-get update
@@ -15,6 +15,7 @@ COPY scripts/supervisor/cm.conf /etc/supervisor/conf.d/cm.conf
 
 # make cloudera-scm-server-db to run in foreground
 RUN sed -i 's#\$SU -c "\$PG_CTL start -D \$DATA_DIR -l \$SERVER_OUT -o \\"\$EXTRA_PG_ARGS\\"" >\/dev\/null#\$SU -c "\/usr\/lib\/postgresql\/9.3\/bin\/postgres -D \$DATA_DIR $EXTRA_PG_ARGS" >\$SERVER_OUT 2>\&1#g' /etc/init.d/cloudera-scm-server-db
+RUN sed -i.bak 's#"nohup \$SERVER_SCRIPT \$CMF_SERVER_ARGS" > \$SERVER_OUT 2>&1 </dev/null &#"exec $SERVER_SCRIPT $CMF_SERVER_ARGS" > $SERVER_OUT 2>\&1#g' /etc/init.d/cloudera-scm-server
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
